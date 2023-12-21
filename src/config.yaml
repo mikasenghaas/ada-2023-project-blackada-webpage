@@ -8,7 +8,6 @@ site:
 metadata:
   title:
     default: 'Unlocking the Palate'
-    template: '%s — AstroWind'
   description: 'A Data-Centric Approach to Understanding Beer Descriptors'
   robots:
     index: true

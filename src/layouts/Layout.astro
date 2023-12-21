@@ -13,8 +13,6 @@ import BasicScripts from '~/components/common/BasicScripts.astro';
 
 import Header from '~/components/widgets/Header.astro';
 
-import { headerData } from '~/navigation';
-
 // Uncomment line below to activate View Transitions
 // import { ViewTransitions } from 'astro:transitions';
 
@@ -37,28 +35,12 @@ const { language, textDirection } = I18N;
     <ApplyColorMode />
     <Metadata {...metadata} />
     <SiteVerification />
-
-    <!-- Uncomment line below to activate View Transitions -->
-    <!-- <ViewTransitions fallback="swap" /> -->
   </head>
 
-  <body class="antialiased text-default bg-page tracking-tight">
-    <Fragment slot="announcement">
-      <slot name="announcement" />
-    </Fragment>
+  <body class="antialiased text-default bg-page tracking-tight px-3 md:px-6 mx-auto w-full max-w-5xl">
     <Fragment slot="header">
       <slot name="header">
-        <Header
-          links={headerData?.links[2] ? [headerData.links[2]] : undefined}
-          actions={[
-            {
-              text: 'Download',
-              href: 'https://github.com/onwidget/astrowind',
-            },
-          ]}
-          showToggleTheme
-          position="right"
-        />
+        <Header showToggleTheme position="right" />
       </slot>
       <slot />
     </Fragment>

@@ -1,6 +1,7 @@
 ---
-import Layout from '~/Layout.astro';
-import Header from '~/components/widgets/Header.astro';
+import Layout from '~/layouts/Layout.astro';
+import Header from '~/components/Header.astro';
+import Footer from '~/components/Footer.astro';
 import Hero from '~/components/Hero.astro';
 import Introduction from '~/sections/intro.mdx';
 import Data from '~/sections/data.mdx';
@@ -31,4 +32,5 @@ const metadata = {
     <Remarks />
     <Conclusion />
   </div>
+  <Footer />
 </Layout>

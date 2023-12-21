@@ -1,6 +1,8 @@
 ---
 import Layout from '~/layouts/Layout.astro';
 import Test from '~/sections/test.mdx';
+import Header from '~/components/widgets/Header.astro';
+import Hero from '~/components/widgets/Hero.astro';
 
 const metadata = {
   title: 'Unlocking the Palate: A Data-Centric Approach to Understanding Beer Descriptors',
@@ -9,6 +11,7 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero Widget ******************* -->
+  <Header showToggleTheme position="right" />
+  <Hero />
   <Test />
 </Layout>

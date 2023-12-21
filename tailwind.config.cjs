@@ -69,6 +69,9 @@ module.exports = {
         'glow-xl': '0 0 40px 0.5px var(--accent)',
       },
     },
+    fontFamily: {
+      sans: ['Poppins', ...defaultTheme.fontFamily.sans],
+    },
   },
   plugins: [require('@tailwindcss/typography')],
   darkMode: 'class',

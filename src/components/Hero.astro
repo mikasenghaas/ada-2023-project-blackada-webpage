@@ -1,0 +1,43 @@
+---
+
+---
+
+<section class="flex flex-col mt-40 mb-60">
+  <p class="text-6xl md:text-8xl font-bold text-left h-[400px]">
+    Does your beer also
+    <span id="quotes" class="text-accent-foreground"></span>
+  </p>
+  <p id="fadein"><span class="text-foreground">No?</span> We didn't think so either.</p>
+</section>
+
+<script>
+  import Typewriter from 'typewriter-effect/dist/core';
+
+  const quotes = [
+    'have a nice herby floral hop flavour?',
+    'have a caramel, golden syrup nose?',
+    'taste like burnt orange, with some apple hints?',
+  ];
+  // 1. user_name: cypressbo, user_id: cypressbob.3708
+  // 2. user_name: StJamesGate, user_id: stjamesgate.163714
+  // 3. user_name: mdagnew, user_id: mdagnew.19527
+
+  const quotesEl = document.querySelector('#quotes');
+  new Typewriter(quotesEl, {
+    strings: quotes,
+    loop: true,
+    autoStart: true,
+    pauseFor: 3000,
+    onRemoveNode: () => {
+      console.log('onRemoveNode');
+    },
+  });
+
+  function fadeInAfterDelay(elementId, delay) {
+    setTimeout(() => {
+      document.getElementById(elementId)!.style.opacity = '1';
+    }, delay);
+  }
+
+  fadeInAfterDelay('fadein', 6000); // Fades in after 2000 milliseconds
+</script>

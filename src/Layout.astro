@@ -34,14 +34,8 @@ const { language, textDirection } = I18N;
     <SiteVerification />
   </head>
 
-  <body class="antialiased text-default bg-page px-3 md:px-6 mx-auto w-full max-w-5xl">
-    <BasicScripts />
+  <body class="antialiased flex flex-col w-full justify-center">
     <slot />
-
-    <style is:global>
-      img {
-        content-visibility: auto;
-      }
-    </style>
+    <BasicScripts />
   </body>
 </html>

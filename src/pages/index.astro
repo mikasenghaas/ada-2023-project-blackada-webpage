@@ -1,8 +1,15 @@
 ---
-import Layout from '~/layouts/Layout.astro';
-import Test from '~/sections/test.mdx';
+import Layout from '~/Layout.astro';
 import Header from '~/components/widgets/Header.astro';
-import Hero from '~/components/widgets/Hero.astro';
+import Hero from '~/components/Hero.astro';
+import Introduction from '~/sections/intro.mdx';
+import Data from '~/sections/data.mdx';
+import Methodology from '~/sections/methodology.mdx';
+import Results from '~/sections/results.mdx';
+import Interpretation from '~/sections/interpretation.mdx';
+// import OtherGroupings from '~/sections/groupings.mdx';
+import Remarks from '~/sections/remarks.mdx';
+import Conclusion from '~/sections/conclusion.mdx';
 
 const metadata = {
   title: 'Unlocking the Palate: A Data-Centric Approach to Understanding Beer Descriptors',
@@ -11,7 +18,17 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <Header showToggleTheme position="right" />
-  <Hero />
-  <Test />
+  <div class="wide-container">
+    <Header showToggleTheme position="right" />
+    <Hero />
+  </div>
+  <div class="container">
+    <Introduction />
+    <Data />
+    <Methodology />
+    <Results />
+    <Interpretation />
+    <Remarks />
+    <Conclusion />
+  </div>
 </Layout>

@@ -1,0 +1,38 @@
+---
+title: "Main Results"
+description: "The results of our main pipeline"
+---
+
+## Unveiling the Hidden Patterns
+
+---
+
+We've got our fancy vectors representing beer reviews, but do they actually tell us anything useful? How can we make sense of a whopping 81,078 dimensions?
+
+### Visualising the Beer Landscape
+
+We pulled a neat trick called Truncated Singular Value Decomposition (TSVD) to shrink those dimensions down to a cozy 2D space. This technique is like a cousin of PCA, but it's specially designed for handling sparse matrices (think of them as spreadsheets with lots of blank cells).
+
+When we plotted the reviews in this 2D space, something magical happened: They started forming distinct clusters!  We focused on three popular styles—India Pale Ales (IPAs), Stouts and Porters, and Pale Lagers and Pilsners—and found that they consistently arranged themselves in a vertical pattern, with IPAs on top, Stouts and Porters in the middle, and Pale Lagers and Pilsners at the bottom. This visual fingerprint tells us that the vectors aren't just random numbers—they capture real, meaningful differences in how people describe different beer styles.  
+
+(XXX) image of clusters
+
+### Putting a Number on Beer Talk
+
+But can we go beyond visuals and quantify these language differences?  We turned to our trusty friend, cosine similarity, to measure how closely aligned the language is within different beer groups.
+
+We faced a slight challenge, though: Calculating cosine similarity between all 2.5 million reviews would require a mind-boggling 10TB of memory!  To overcome this, we took a representative sample of 10,000 reviews and calculated the average cosine similarity within different groups (all reviews, styles, substyles, and individual beers).
+
+(XXX Box plot of distributions)
+
+### Beer-Proofing Our Findings
+
+As any good beer aficionado (or data scientist) knows, you can't just trust your eyes alone. We needed to make sure these differences weren't just a fluke. So, we performed a statistical test called ANOVA (type II), which is like a t-test but for comparing multiple groups at once.
+
+The results? Drumroll, please...  The p-value came back as a tiny 3.040729e-07! That's science-speak for "these differences are highly unlikely to be random."
+
+To double-check, we shuffled the reviews like a deck of cards and re-ran the test. This time, the p-value was a whopping 0.9—basically, no significant differences. This confirmed that our initial findings weren't just a lucky draw. 🃏
+
+We then used Tukey's HSD test to pinpoint exactly which groups were significantly different from each other. It turned out that the language used for different styles and substyles was indeed distinct as well as between the styles and individual beers, but the other pairs didn't show as much variation.
+
+> With all this evidence, we can confidently say (while still leaving room for a bit of scientific caution) that beer lovers do indeed use different language to describe different styles and beers. This opens up exciting possibilities for understanding how people talk about beer, and what specific words and phrases they use to describe their favorite brews.

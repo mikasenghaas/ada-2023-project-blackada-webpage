@@ -1,0 +1,33 @@
+---
+title: "Interpretation"
+---
+
+## A Layman's Guide to the Beer Lexicon
+
+---
+
+All of this analysis showing that beer descriptors are meaningful is all well and good, but how should you go about describing a beer if you want to truly sound like an expert? Which words should you use for which kinds of beers? How will you look in front of your beer-fanatic friends if you take a misstep in the minefield of beer descriptors? In this section, we take the TF-IDF embbeddings and conduct further analysis in order to find the largest differences between descriptors used for different kinds of beers.
+
+### The Most Important Words
+
+Since TF-IDF preserves each input word as a feature, we can interpret its value as the significance of the word to the review. Furthermore, given that we have removed stopwords, and removed beer-specific stopwords (like 'beer' or 'brew'), the words left behind should be descriptors that are meaningful in some way. Below is a figure showing the top 10 average TFIDF embeddings across all beers.
+
+(XXX) Insert top 10 TFIDF embeddings
+
+We can also look at a specific style of beer. Rendered below is a dropdown where you can select a beer style and see its top 10 TFIDF embeddings.
+
+(XXX) Insert dropdown of styles
+
+The results here are unsurprising. We have fairly basic descriptors such as 'nice' and 'good', but also a few more interesting examples such as (XXX).
+
+### Which words when?
+
+It might be more interesting to see which words are used _differently_ for a given beer style. If we take the difference between a group's mean embbedding and the mean of the remainder of the beers, we can find such descriptors. This way, we can identify the words which are most important to that kind of beer - or put differently - the words which are most different in usage for a particular kind of beer. Below is a dropdown where you can select a style of beer and see the top 10 most different words (either positive or negative) for that style.
+
+(XXX) Insert dropdown of styles
+
+Here, the results are more interesting. We find examples like (XXX).
+
+Finally, in order to trully get these words embedded(!) in your brain, here is a word cloud generator which uses the same data so that you can put a poster up on your wall of your favourite beer's descriptors. A word's size indicates its importance and the colour indicates whether it should or should not be used (blue for positive, red for negative). Happy drinking!
+
+(XXX) Insert Wordcloud generator.

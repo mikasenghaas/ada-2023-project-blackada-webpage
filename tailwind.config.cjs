@@ -73,6 +73,9 @@ module.exports = {
       sans: ['Poppins', ...defaultTheme.fontFamily.sans],
     },
   },
+  corePlugins: {
+    container: false,
+  },
   plugins: [require('@tailwindcss/typography')],
   darkMode: 'class',
 };

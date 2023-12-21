@@ -1,0 +1,24 @@
+---
+title: "Main Pipeline"
+---
+
+## Untangling the Taste Buds: Our Three-Step Process
+
+---
+
+To figure out how much people agree on beer descriptions, we created a special process with three main steps:
+
+### Flavor Extraction
+
+Not all words in a review are relevant. For example, we have the following review: _'Clear, dark amber with a fluffy tan head that leaves some decent lace on the glass. Sweet caramel malt and marshmallow with a touch of wintergreen in the aroma'_. In this review, we might only care about the truly descriptive words like 'clear, dark amber', 'fluffy tan' or 'sweet caramel malt'. We might also care about non-adjective based descriptors like 'marshmallow' or 'touch of wintergreen'. We tested extracting only adjectives, removing all stopwords (including custom beer-based stopwords) or keeping the reviews as is. When later conducting interpretation analysis on the reviews, we decided that a simple stopword removal was a good compromise, as few irrelevant terms appeared, while retaining non-adjective descriptors. For this step, we used an NLP library called [spaCy](https://spacy.io/) to tag the part of speech (POS) for each token (if a word is a noun, adjective ...) and for lemmatization (the root of a word). 
+
+
+### Embedding - Turning words into numbers
+
+We considered various methods of embedding the extracted tokens. From the simplest one that counts the number of times, a word appears in a review `CountVectorizer` to more complex ones that use the latest advances in NLP like the transformer model [BERT](https://arxiv.org/abs/1810.04805) and [SBERT](https://arxiv.org/abs/1908.10084). Even though these models have proven to provide better sentence representations, the vector features they produce are not interpretable. In the end, we decided to use TF-IDF (Term Frequency, Inverse Document Frequency) - a model that is similar to `CountVectorizer` but takes into account the frequency of the word in the whole corpus. The intuition behind this is that words that appear in many reviews are less relevant to the analysis, and we want to give them less weight. Therefore we scale the count of each word by the ratio of the number of reviews in the corpus to the number of reviews that contain that word.
+
+The nice bonus effect of using TFIDF is that we can retrieve the word for each feature, and therefore each word gets an interpretable 'importance'. This is crucial to our vocabulary guide later on this page.
+
+### Measuring the Taste Consensus
+
+Now that we have a way to represent reviews in a vector space, we can measure the closeness of these vectors to each other. This distance will now represent the consensus of the language used in the reviews. We tried different distance metrics like [cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity), correlation and the KL and JS divergences. We found that the [cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity) gave the best results and was also the fastest to compute. This is perhaps due to the fact that it ignores the magnitude of the vector and only looks at the angle, which is beneficial when working iwth TF-IDF embeddings. This number ranges from 0 to 1, where 0 means that the words used in the reviews are completely different and 1 means that the words used are the same. We can now use this number to compare the consensus of the language used in different groups of reviews by taking the average of this number for each pair of reviews in the group.

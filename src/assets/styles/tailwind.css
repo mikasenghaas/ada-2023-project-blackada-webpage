@@ -71,6 +71,10 @@
 }
 
 @layer base {
+  * {
+    @apply border-border;
+  }
+
   ::selection {
     @apply bg-accent text-accent-foreground;
   }
@@ -81,13 +85,17 @@
 
   /* container */
   .container {
-    @apply mx-auto w-full self-center p-6 md:w-[900px] 2xl:w-[1280px];
+    @apply mx-auto p-6 md:w-[900px] 2xl:w-[1280px];
+  }
+
+  .wide-container {
+    @apply mx-auto p-6 md:w-[1100px] 2xl:w-[1440px];
   }
 
   /* texts */
   p,
   li {
-    @apply text-lg font-light leading-loose text-muted-foreground 2xl:text-2xl 2xl:leading-relaxed;
+    @apply text-lg font-light leading-loose text-muted-foreground md:text-justify 2xl:text-2xl 2xl:leading-relaxed;
   }
 
   a {
@@ -110,19 +118,19 @@
   h1,
   h2,
   h3 {
-    @apply mt-14 scroll-m-24 font-semibold text-foreground 2xl:mt-20 2xl:scroll-m-32;
+    @apply scroll-m-24 font-semibold text-foreground 2xl:mt-20 2xl:scroll-m-32;
   }
 
   h1 {
-    @apply text-3xl sm:text-4xl 2xl:text-5xl;
+    @apply mt-14 text-3xl sm:text-4xl 2xl:text-5xl;
   }
 
   h2 {
-    @apply text-2xl sm:text-3xl 2xl:text-4xl;
+    @apply mt-14 text-2xl sm:text-3xl 2xl:text-4xl;
   }
 
   h3 {
-    @apply text-xl sm:text-2xl 2xl:text-3xl;
+    @apply mt-8 mb-4 text-xl sm:text-2xl 2xl:text-3xl;
   }
 
   /* lists */
@@ -224,4 +232,9 @@
   code[data-line-numbers-max-digits='3'] > [data-line]::before {
     width: 3rem;
   }
+}
+
+#fadein {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
 }

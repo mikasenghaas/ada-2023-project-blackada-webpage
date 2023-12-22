@@ -4,59 +4,71 @@ layout: ../layouts/PageLayout.astro
 import Review from '../components/Review.astro'
 import ImageWithCaption from '../components/ImageWithCaption.astro'
 
-<span class="text-6xl text-foreground">Who</span> doesn't love a good cold brew on a warm summer's day? Who doesn't crave the sound of the can crackling open, and the spike of fizz on the tongue? Who doesn't long for the perfect pour of a pint into an oversized stein with just enough head? But when you stand at the bar, staring at the choice of beers like a deer in headlights, **can you really describe the differences between the options**? 🦌 😵‍💫
+<span class="text-6xl text-foreground">Who</span> doesn't love a good cold brew on a warm summer's day? Who doesn't crave the sound of the can crackling open, and the spike of fizz on the tongue? Who doesn't long for the perfect pour of a pint into an oversized stein with just enough head? But when you stand at the bar, staring at the choice of beers like a deer in headlights, can you really describe the differences between the options? 🦌 😵‍💫
 
-Navigating the world of beers can be a daunting task for non-experts. Beer aficionados often describe brews as having nuanced flavors such as *grassy notes* and *biscuity/crackery malt*, with hints of *hay*. **But do these descriptions reflect the actual tasting experience?** In a hunt for answers we turned to the ultimate source of trust - data. Packed with 2,4M beer reviews, fancy natural language processing techniques, statistical tests and many more goodies in our [ADA](https://ada.epfl.ch) bag 🎒, we set out to settle the debate around the beer jargon once and for all. After reading this you will know if it is worth diving into the depths of the palate and become a true beer expert. And psst... you want to sound like a beer expert even without knowing the jargon? We got your back! 🫂 In the end, we reveal the ultimate words to describe each beer - guaranteed to impress even [StonedTrippin](https://www.beeradvocate.com/community/members/stonedtrippin.601042/). **Pack your bags, we're going on an ADAventure!** 🍻
+Navigating the world of beers can be a daunting task for non-experts. Beer aficionados often describe brews as having nuanced flavors such as 'grassy notes' and 'biscuity/crackery malt', with hints of 'hay'. **But do these descriptions reflect the actual tasting experience?** In a hunt for answers we turned to the ultimate source of trust - data. Packed with 2,4M beer reviews, fancy natural language processing techniques, statistical tests and many more goodies in our [ADA](https://ada.epfl.ch) bag 🎒, we set out to settle the debate around the beer jargon once and for all. After reading this you will know if it is worth diving into the depths of the palate and become a true beer expert. And psst... you want to sound like a beer expert even without knowing the jargon? We got your back! 🫂 In the end, we reveal Layman's guide to the beer lexicon. **Pack your bags, we're going on an ADAventure!** 🍻
 
 
 ## Where Did We Find This Treasure Trove of Beer Reviews?
 
 ---
 
-Well, we didn't quite find it. We were lucky enough to have access to a massive dataset of beer reviews, generously provided by the ADA team. This dataset, originally sourced from the esteemed [BeerAdvocate](https://drive.google.com/drive/folders/1Wz6D2FM25ydFw_-41I9uTwG9uNsN4TCF) website, holds a whopping 2.4 million user reviews, covering a staggering 126 thousand unique beers! Talk about a diverse selection to quench any thirst for data.
+Well, we didn't quite find it. We were lucky enough to have access to a massive dataset of beer reviews, generously provided by the ADA team. This dataset, originally sourced from the esteemed [BeerAdvocate](https://drive.google.com/drive/folders/1Wz6D2FM25ydFw_-41I9uTwG9uNsN4TCF) website, holds a whopping **2.4M** user reviews, covering a staggering 126 thousand unique beers! Talk about a diverse selection to quench any thirst for data.
 
-To make things more manageable (and because we love a good categorization), we've grouped the original 104 beer substyles into 11 broader style categories. 🎨 Also, disregard any reviews with less than 50 words. Why? Because, they mostly looked something like this
+To make things more manageable (and because we love a good categorization), we've grouped the original 104 beer substyles into 11 broader style categories. 🎨 Also, we disregarded any reviews with less than 50 words as they were mostly gibberish. Later on our journey we will be computing consensus between reviewers. As this is only meaningful for a lot of people, we also removed all reviews of beers that had less than 50 reviews overall - sorry to all you really niche beers out there! 🍺 After all this processing magic, we were still left with **1.65M** reviews in our bag.
 
-<Review
-    review="$$$111111111111111123xxxxx023322222"
-    author="Lalaland"
-    beer="Scotch IPA"
-    date="Jan 1st 2021"
-/>
-
-Later on our journey we will be computing consensus between reviewers. As this is only meaningful for a lot of people, we also removed all reviews of beers that had less than than 50 reviews overall - sorry to all you really niche beers out there! 🍺 After all this processing magic, we were still left with **1,65M** reviews in our bags - still heavy!
-
-## Untangling the Taste Buds: Our Three-Step Process
+## Untangling the Taste Buds: Our Three-Step Recipe
 
 ---
 
-We got many reviews, but how can we tell if the words used relate to the actual taste of the beer? Well, we can't - because do that we would need information things like the chemical composition of the beer, the taste buds of the reviewer, and the exact moment in time when the review was written. But we can do the next best thing: **we can see if people generally agree on the words they use to describe the beer**. 🤝
+We have lots of reviews, but how can we tell if the words in the reviews actually relate to the taste of the beer? Well, we can't - for that we would need information about the chemical composition of the beers, and unfortunately, BeerAdvocate reviewers don't conduct PhD level molecular analysis for their review. 🧑‍🔬
 
-Following this "wisdom-of-the-crowd" approach, a descriptor can be considered meaningful if many, independent reviewers use similar descriptors for a beer's taste. To quantify consensus, we use natural language processing techniques to extract descriptors of a beer's taste and numerically represent these descriptors to compute similarity or consensus scores. The consensus scores between beer reviews will unveil whether there is a shared understanding of taste among beer geeks.
+But we can do the next best thing: **we can see if people generally agree on the words they use to describe a beer**. 🤝
 
-To figure out how much people agree on beer descriptions, we created a special process with three main steps:
+This wisdom-of-the-crowd approach leads us to the following three-step distilation process:
 
-### Flavor Extraction
+1. **😋 Flavour Extraction:** We extract the most important words from each review
+2. **🔢 Numerical Fermentation:** We embed these words in a vector space
+3. **🕵️‍♂️ Similarity Synthesis:** We compute a consensus score between reviews
 
-Not all words in a review are relevant. For example, we have the following review: _'Clear, dark amber with a fluffy tan head that leaves some decent lace on the glass. Sweet caramel malt and marshmallow with a touch of wintergreen in the aroma'_. In this review, we might only care about the truly descriptive words like 'clear, dark amber', 'fluffy tan' or 'sweet caramel malt'. We might also care about non-adjective based descriptors like 'marshmallow' or 'touch of wintergreen'. We tested extracting only adjectives, removing all stopwords (including custom beer-based stopwords) or keeping the reviews as is. When later conducting interpretation analysis on the reviews, we decided that a simple stopword removal was a good compromise, as few irrelevant terms appeared, while retaining non-adjective descriptors. For this step, we used an NLP library called [spaCy](https://spacy.io/) to tag the part of speech (POS) for each token (if a word is a noun, adjective ...) and for lemmatization (the root of a word).
+Let's dive into the details of each step.
+
+### 😋 Flavor Extraction
+
+Not all words in a review are related to its taste. For example, in this review
+
+<Review
+    author="biggred1"
+    beer="St. Patrick's Best"
+    date="19th of May 2010"
+>
+    <span class="text-accent-foreground">Clear, dark amber</span> with a <span class="text-accent-foreground">fluffy tan</span> head that leaves some decent lace on the glass. <span class="text-accent-foreground">Sweet caramel</span> malt and <span class="text-accent-foreground">marshmallow</span> with a <span class="text-accent-foreground">touch of wintergreen</span> in the aroma
+</Review>
 
 
+we care about adjectives like 'clear, dark amber', 'fluffy tan' or 'sweet caramel'. We might also care about non-adjective based descriptors like 'marshmallow' or 'touch of wintergreen'. We tested extracting only adjectives, removing all stopwords (including custom beer-based stopwords) or keeping the reviews as is. When later conducting interpretation analysis on the reviews, **we decided that simple stopword removal was a good compromise**, as few irrelevant terms appeared, while retaining non-adjective descriptors. This is what the same review looks like after our flavour extraction:
 
-### Embedding - Turning words into numbers
+<div class="w-full bg-muted rounded-lg px-4 py-6 my-6">
+    <p class="m-0">clear dark amber fluffy tan leave decent lace glass sweet caramel marshmallow touch wintergreen</p>
+</div>
+
+As we can see, most words relate to the taste - but our method is not 100% foolproof. We tried to make our custom stopword list as comprehensive as possible, but we will never catch all non-taste descriptors. For example, in this review we unfortunately retain 'leave', 'glass', and 'touch' - however, the vast majority of words remaining carry meaning. And so we carry on. 🎒
+
+### 🔢️ Numerical Fermentation
+
+Unfortunately, our computers can neither taste nor read - at least not without some help. To analyse the extracted flavours, we therefore had to convert them into a numerical representation. In NLP this is called embedding - we prefer numerical fermentation. 🍺 
 
 <ImageWithCaption
     src="/assets/tfidf-example.png"
     id="tfidf-example"
-    caption="TF-IDF example"
+    caption="Three examples of numerical fermentation (embedding) using TF-IDF. We show the embedding process, as well as how to retrieve important words from the embedding."
     alt="TF-IDF example"
 />
 
-We considered various methods of embedding the extracted tokens. From the simplest one that counts the number of times, a word appears in a review `CountVectorizer` to more complex ones that use the latest advances in NLP like the transformer model [BERT](https://arxiv.org/abs/1810.04805) and [SBERT](https://arxiv.org/abs/1908.10084). Even though these models have proven to provide better sentence representations, the vector features they produce are not interpretable. In the end, we decided to use TF-IDF (Term Frequency, Inverse Document Frequency) - a model that is similar to `CountVectorizer` but takes into account the frequency of the word in the whole corpus. The intuition behind this is that words that appear in many reviews are less relevant to the analysis, and we want to give them less weight. Therefore we scale the count of each word by the ratio of the number of reviews in the corpus to the number of reviews that contain that word.
-
-The nice bonus effect of using TFIDF is that we can retrieve the word for each feature, and therefore each word gets an interpretable 'importance'. This is crucial to our vocabulary guide later on this page.
+We considered various techniques: from simply counting the number of times a word appears in a review to the latest advances in NLP using Transformer-based models like [BERT](https://arxiv.org/abs/1810.04805) and [SBERT](https://arxiv.org/abs/1908.10084). Even though these models have proven to provide better sentence representations, the vector features they produce are not interpretable. In the end, **we decided to use [TF-IDF](https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html)** - a model that counts occurrences of words but also takes the frequency of the word in the corpus into account. The intuition behind this is that words that appear in many reviews are less relevant to the analysis, and we want to give them less weight. We can also hope that some of the non-taste-related words from our flavour extraction step are penalised because they appear across many reviews. Crucially, TF-IDF allows us to retrieve the descriptors that are most importnat for each review - vital for our later guide to the beer lexicon. 📖
 
 
-### Measuring the Taste Consensus
+### 🕵️‍♂️ Similarity Synthesis
 
 Now that we have a way to represent reviews in a vector space, we can measure the closeness of these vectors to each other. This distance will now represent the consensus of the language used in the reviews. We tried different distance metrics like [cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity), correlation and the KL and JS divergences. We found that the [cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity) gave the best results and was also the fastest to compute. This is perhaps due to the fact that it ignores the magnitude of the vector and only looks at the angle, which is beneficial when working iwth TF-IDF embeddings. This number ranges from 0 to 1, where 0 means that the words used in the reviews are completely different and 1 means that the words used are the same. We can now use this number to compare the consensus of the language used in different groups of reviews by taking the average of this number for each pair of reviews in the group.
 

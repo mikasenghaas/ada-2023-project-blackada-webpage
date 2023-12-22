@@ -1,12 +1,15 @@
 ---
-const { review, author, beer, date } = Astro.props;
+const { author, beer, date } = Astro.props;
 ---
 
 <div class="w-full bg-muted rounded-lg px-4 py-6 my-6">
-  <p class="m-0 text-foreground text-base">{review}</p>
-  <p class="m-0 text-sm mt-4">
-    <span class="font-semibold">{author}</span> reviewing <span class="font-semibold">{beer}</span> on <span
-      >{date}</span
-    >
-  </p>
+  <p class="m-0 p-0 text-foreground"><slot /></p>
+  {
+    author && (
+      <p class="m-0 text-sm mt-4">
+        <span class="font-semibold">{author}</span> reviewing <span class="font-semibold">{beer}</span> on{' '}
+        <span>{date}</span>
+      </p>
+    )
+  }
 </div>

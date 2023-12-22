@@ -1,12 +1,14 @@
 ---
 layout: ../layouts/PageLayout.astro
 ---
+import ImageWithCaption from "../components/ImageWithCaption.astro"
+import top_10_features from "../assets/images/top_k_features_overall.png"
+import top_10_features_dark from "../assets/images/top_k_features_overall_dark.png"
 
 <span class="text-6xl text-foreground">Who</span> doesn't love a good cold brew on a warm summer's day? Who doesn't crave the sound of the can crackling open, and the spike of fizz on the tongue? Who doesn't long for the perfect pour of a pint into an oversized stein with just enough head? But when you stand at the bar, staring at the choice of beers like a deer in headlights, **can you really describe the differences between the options**? 🦌 😵‍💫
 
-<img src="../assets/top-features.png" alt="test" />
-
 Navigating the world of beers can be a daunting task for non-experts. Beer aficionados often describe brews as having nuanced flavors such as *grassy notes* and *biscuity/crackery malt*, with hints of *hay*. **But do these descriptions reflect the actual tasting experience?** 🤔 In a hunt for answers we turned to the ultimate source of trust - data. Packed with 2,4M beer reviews, fancy natural language processing techniques, statistical tests and many more goodies in our [ADA](https://ada.epfl.ch) bag 🎒, we set out to settle the debate around the beer jargon once and for all. After reading this you will know if it is worth diving into the depths of the palate and become a true beer expert. And psst... you want to sound like a beer expert even without knowing the jargon? We got your back! 🫂 In the end, we reveal the ultimate words to describe each beer - guaranteed  to impress even [Insert Top BeerAdvocate Reviewer](). **Let's get the journey started!** 🍻
+
 
 ## Where Did We Find This Treasure Trove of Beer Reviews?
 
@@ -28,12 +30,21 @@ To figure out how much people agree on beer descriptions, we created a special p
 
 Not all words in a review are relevant. For example, we have the following review: _'Clear, dark amber with a fluffy tan head that leaves some decent lace on the glass. Sweet caramel malt and marshmallow with a touch of wintergreen in the aroma'_. In this review, we might only care about the truly descriptive words like 'clear, dark amber', 'fluffy tan' or 'sweet caramel malt'. We might also care about non-adjective based descriptors like 'marshmallow' or 'touch of wintergreen'. We tested extracting only adjectives, removing all stopwords (including custom beer-based stopwords) or keeping the reviews as is. When later conducting interpretation analysis on the reviews, we decided that a simple stopword removal was a good compromise, as few irrelevant terms appeared, while retaining non-adjective descriptors. For this step, we used an NLP library called [spaCy](https://spacy.io/) to tag the part of speech (POS) for each token (if a word is a noun, adjective ...) and for lemmatization (the root of a word).
 
+<ImageWithCaption
+    id="top_10_features"
+    srcLight={top_10_features}
+    srcDark={top_10_features_dark}
+    caption="Top 10 Features Overall"
+    alt="top-10-features-overall"
+/>
+
 
 ### Embedding - Turning words into numbers
 
 We considered various methods of embedding the extracted tokens. From the simplest one that counts the number of times, a word appears in a review `CountVectorizer` to more complex ones that use the latest advances in NLP like the transformer model [BERT](https://arxiv.org/abs/1810.04805) and [SBERT](https://arxiv.org/abs/1908.10084). Even though these models have proven to provide better sentence representations, the vector features they produce are not interpretable. In the end, we decided to use TF-IDF (Term Frequency, Inverse Document Frequency) - a model that is similar to `CountVectorizer` but takes into account the frequency of the word in the whole corpus. The intuition behind this is that words that appear in many reviews are less relevant to the analysis, and we want to give them less weight. Therefore we scale the count of each word by the ratio of the number of reviews in the corpus to the number of reviews that contain that word.
 
 The nice bonus effect of using TFIDF is that we can retrieve the word for each feature, and therefore each word gets an interpretable 'importance'. This is crucial to our vocabulary guide later on this page.
+
 
 ### Measuring the Taste Consensus
 

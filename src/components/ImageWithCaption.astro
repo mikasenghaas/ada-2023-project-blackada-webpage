@@ -1,22 +1,23 @@
 ---
 import { Image } from 'astro:assets';
 
-const { id, srcLight, srcDark, alt, caption } = Astro.props;
+const { id, src, alt, caption } = Astro.props;
 ---
 
 <div class="my-12">
-  <Image id={id} src={srcLight} alt={alt} />
+  <Image id={id} src={src} alt={alt} width={900} height={400} />
   <p class="text-sm italic">{caption}</p>
 </div>
 
-<script define:vars={{ id, srcLight, srcDark }}>
+<script define:vars={{ id, src }}>
   // Function to update image based on dark attribute
   function updateImage() {
     const image = document.getElementById(id);
     if (document.documentElement.classList.contains('dark')) {
-      image.src = srcDark.src;
+      const [path, suffix] = src.split('.');
+      image.src = `${path}_dark.${suffix}`;
     } else {
-      image.src = srcLight.src;
+      image.src = src;
     }
   }
 

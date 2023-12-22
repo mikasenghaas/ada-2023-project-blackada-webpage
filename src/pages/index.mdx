@@ -1,6 +1,7 @@
 ---
 layout: ../layouts/PageLayout.astro
 ---
+import ImageWithCaption from '../components/ImageWithCaption.astro'
 import ImageWithCaption from "../components/ImageWithCaption.astro"
 import top_10_features from "../assets/images/top_k_features_overall.png"
 import top_10_features_dark from "../assets/images/top_k_features_overall_dark.png"
@@ -10,6 +11,13 @@ import distribution_dark from "../assets/images/distribution_dark.png"
 import distribution from "../assets/images/distribution.png"
 
 <span class="text-6xl text-foreground">Who</span> doesn't love a good cold brew on a warm summer's day? Who doesn't crave the sound of the can crackling open, and the spike of fizz on the tongue? Who doesn't long for the perfect pour of a pint into an oversized stein with just enough head? But when you stand at the bar, staring at the choice of beers like a deer in headlights, **can you really describe the differences between the options**? 🦌 😵‍💫
+
+<ImageWithCaption
+    src="/assets/top_k_features_overall.png"
+    id="top-k-features"
+    caption="Top 10 features by style"
+    alt="Top 10 features by style"
+/>
 
 Navigating the world of beers can be a daunting task for non-experts. Beer aficionados often describe brews as having nuanced flavors such as *grassy notes* and *biscuity/crackery malt*, with hints of *hay*. **But do these descriptions reflect the actual tasting experience?** 🤔 In a hunt for answers we turned to the ultimate source of trust - data. Packed with 2,4M beer reviews, fancy natural language processing techniques, statistical tests and many more goodies in our [ADA](https://ada.epfl.ch) bag 🎒, we set out to settle the debate around the beer jargon once and for all. After reading this you will know if it is worth diving into the depths of the palate and become a true beer expert. And psst... you want to sound like a beer expert even without knowing the jargon? We got your back! 🫂 In the end, we reveal the ultimate words to describe each beer - guaranteed  to impress even [Insert Top BeerAdvocate Reviewer](). **Let's get the journey started!** 🍻
 
@@ -33,14 +41,6 @@ To figure out how much people agree on beer descriptions, we created a special p
 ### Flavor Extraction
 
 Not all words in a review are relevant. For example, we have the following review: _'Clear, dark amber with a fluffy tan head that leaves some decent lace on the glass. Sweet caramel malt and marshmallow with a touch of wintergreen in the aroma'_. In this review, we might only care about the truly descriptive words like 'clear, dark amber', 'fluffy tan' or 'sweet caramel malt'. We might also care about non-adjective based descriptors like 'marshmallow' or 'touch of wintergreen'. We tested extracting only adjectives, removing all stopwords (including custom beer-based stopwords) or keeping the reviews as is. When later conducting interpretation analysis on the reviews, we decided that a simple stopword removal was a good compromise, as few irrelevant terms appeared, while retaining non-adjective descriptors. For this step, we used an NLP library called [spaCy](https://spacy.io/) to tag the part of speech (POS) for each token (if a word is a noun, adjective ...) and for lemmatization (the root of a word).
-
-<ImageWithCaption
-    id="top_10_features"
-    srcLight={top_10_features}
-    srcDark={top_10_features_dark}
-    caption="Top 10 Features Overall"
-    alt="top-10-features-overall"
-/>
 
 
 ### Embedding - Turning words into numbers

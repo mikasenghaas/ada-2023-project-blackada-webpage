@@ -1,0 +1,39 @@
+---
+import { Image } from 'astro:assets';
+
+const { id, srcLight, srcDark, alt, caption } = Astro.props;
+---
+
+<div class="my-12">
+  <Image id={id} src={srcLight} alt={alt} />
+  <p class="text-sm italic">{caption}</p>
+</div>
+
+<script define:vars={{ id, srcLight, srcDark }}>
+  // Function to update image based on dark attribute
+  function updateImage() {
+    const image = document.getElementById(id);
+    if (document.documentElement.classList.contains('dark')) {
+      image.src = srcDark.src;
+    } else {
+      image.src = srcLight.src;
+    }
+  }
+
+  // Create an observer to watch for changes in the 'dark' attribute
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.attributeName === 'class' || mutation.attributeName === 'dark') {
+        updateImage(); // Update the image when an attribute changes
+      }
+    });
+  });
+
+  // Start observing the document element for attribute changes
+  observer.observe(document.documentElement, {
+    attributes: true, //configure it to listen to attribute changes
+  });
+
+  // Initial check
+  document.addEventListener('DOMContentLoaded', updateImage);
+</script>

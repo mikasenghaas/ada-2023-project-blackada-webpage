@@ -19,6 +19,7 @@
     "@astrolib/seo": "^1.0.0-beta.5",
     "@fontsource/poppins": "^5.0.8",
     "@fontsource/roboto-mono": "^5.0.16",
+    "@tabler/icons": "^2.44.0",
     "astro": "^4.0.3",
     "astro-icon": "^1.0.0-next.2",
     "limax": "4.1.0",

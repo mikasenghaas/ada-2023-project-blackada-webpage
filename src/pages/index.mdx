@@ -1,28 +1,40 @@
 ---
 layout: ../layouts/PageLayout.astro
 ---
+import ImageWithCaption from '../components/ImageWithCaption.astro'
+import ImageWithCaption from "../components/ImageWithCaption.astro"
+import top_10_features from "../assets/images/top_k_features_overall.png"
+import top_10_features_dark from "../assets/images/top_k_features_overall_dark.png"
+import cluster_plot from "../assets/images/cluster_plot.png"
+import cluster_plot_dark from "../assets/images/cluster_plot_dark.png"
+import distribution_dark from "../assets/images/distribution_dark.png"
+import distribution from "../assets/images/distribution.png"
 
-<span class="text-6xl text-foreground">Who</span> doesn't love a good cold brew on a warm summer's day? Who doesn't crave the sound of the can crackling open, and the spike of fizz on the tongue? Who doesn't long for the perfect pour of a pint into an oversized stein with just enough head? But when you stand at the bar, staring at the choice of beers like a deer in headlights, can you really describe the differences between the options?
+<span class="text-6xl text-foreground">Who</span> doesn't love a good cold brew on a warm summer's day? Who doesn't crave the sound of the can crackling open, and the spike of fizz on the tongue? Who doesn't long for the perfect pour of a pint into an oversized stein with just enough head? But when you stand at the bar, staring at the choice of beers like a deer in headlights, **can you really describe the differences between the options**? 🦌 😵‍💫
 
-Navigating the world of beers can be a daunting task for non-experts.
-Beer aficionados often describe brews as having nuanced flavors such as "grassy notes" and "biscuity/crackery malt," with hints of "hay." But do these descriptions reflect the actual tasting experience? Following a "wisdom-of-the-crowd" approach,
-a descriptor can be considered meaningful if many, independent reviewers use similar descriptors for a beer's taste.
-To quantify consensus, we use natural language processing techniques to extract descriptors of a beer's taste and
-numerically represent these descriptors to compute similarity or consensus scores. The consensus scores between beer reviews will unveil whether there is a shared understanding of taste among beer geeks.
+<ImageWithCaption
+    src="/assets/top_k_features_overall.png"
+    id="top-k-features"
+    caption="Top 10 features by style"
+    alt="Top 10 features by style"
+/>
 
-And what if you want to sound like a beer snob to impress your friends? What words should you use to describe which beers? We end our investigations by using interpretable embeddings to identify the most important words to use when describing beers of different qualities.
+Navigating the world of beers can be a daunting task for non-experts. Beer aficionados often describe brews as having nuanced flavors such as *grassy notes* and *biscuity/crackery malt*, with hints of *hay*. **But do these descriptions reflect the actual tasting experience?** 🤔 In a hunt for answers we turned to the ultimate source of trust - data. Packed with 2,4M beer reviews, fancy natural language processing techniques, statistical tests and many more goodies in our [ADA](https://ada.epfl.ch) bag 🎒, we set out to settle the debate around the beer jargon once and for all. After reading this you will know if it is worth diving into the depths of the palate and become a true beer expert. And psst... you want to sound like a beer expert even without knowing the jargon? We got your back! 🫂 In the end, we reveal the ultimate words to describe each beer - guaranteed  to impress even [Insert Top BeerAdvocate Reviewer](). **Let's get the journey started!** 🍻
 
-## Where Did This Treasure Trove of Beer Reviews Come From?
+
+## Where Did We Find This Treasure Trove of Beer Reviews?
 
 ---
 
-We're lucky to have access to a massive dataset of beer reviews, generously provided by the ADA team. This dataset, originally sourced from the esteemed [BeerAdvocate](https://drive.google.com/drive/folders/1Wz6D2FM25ydFw_-41I9uTwG9uNsN4TCF) website, holds a whopping 2.4 million user reviews, covering a staggering 126 thousand unique beers! Talk about a diverse selection to quench any thirst for data.
+Well, we didn't quite find it. We were lucky enough to have access to a massive dataset of beer reviews, generously provided by the ADA team. This dataset, originally sourced from the esteemed [BeerAdvocate](https://drive.google.com/drive/folders/1Wz6D2FM25ydFw_-41I9uTwG9uNsN4TCF) website, holds a whopping 2.4 million user reviews, covering a staggering 126 thousand unique beers! Talk about a diverse selection to quench any thirst for data.
 
-To make things more manageable (and because we love a good categorization), we've grouped the original 104 beer substyles into 11 broader style categories. While the dataset also includes information about breweries and reviewers, we've kept our focus on the reviews themselves for this analysis.
+To make things more manageable (and because we love a good categorization), we've grouped the original 104 beer substyles into 11 broader style categories 🎨. While the dataset also includes information about breweries and reviewers, we've kept our focus on the reviews themselves for this analysis.
 
 ## Untangling the Taste Buds: Our Three-Step Process
 
 ---
+
+Following a "wisdom-of-the-crowd" approach, a descriptor can be considered meaningful if many, independent reviewers use similar descriptors for a beer's taste. To quantify consensus, we use natural language processing techniques to extract descriptors of a beer's taste and numerically represent these descriptors to compute similarity or consensus scores. The consensus scores between beer reviews will unveil whether there is a shared understanding of taste among beer geeks.
 
 To figure out how much people agree on beer descriptions, we created a special process with three main steps:
 
@@ -36,6 +48,7 @@ Not all words in a review are relevant. For example, we have the following revie
 We considered various methods of embedding the extracted tokens. From the simplest one that counts the number of times, a word appears in a review `CountVectorizer` to more complex ones that use the latest advances in NLP like the transformer model [BERT](https://arxiv.org/abs/1810.04805) and [SBERT](https://arxiv.org/abs/1908.10084). Even though these models have proven to provide better sentence representations, the vector features they produce are not interpretable. In the end, we decided to use TF-IDF (Term Frequency, Inverse Document Frequency) - a model that is similar to `CountVectorizer` but takes into account the frequency of the word in the whole corpus. The intuition behind this is that words that appear in many reviews are less relevant to the analysis, and we want to give them less weight. Therefore we scale the count of each word by the ratio of the number of reviews in the corpus to the number of reviews that contain that word.
 
 The nice bonus effect of using TFIDF is that we can retrieve the word for each feature, and therefore each word gets an interpretable 'importance'. This is crucial to our vocabulary guide later on this page.
+
 
 ### Measuring the Taste Consensus
 
@@ -53,7 +66,13 @@ We pulled a neat trick called Truncated Singular Value Decomposition (TSVD) to s
 
 When we plotted the reviews in this 2D space, something magical happened: They started forming distinct clusters!  We focused on three popular styles—India Pale Ales (IPAs), Stouts and Porters, and Pale Lagers and Pilsners—and found that they consistently arranged themselves in a vertical pattern, with IPAs on top, Stouts and Porters in the middle, and Pale Lagers and Pilsners at the bottom. This visual fingerprint tells us that the vectors aren't just random numbers—they capture real, meaningful differences in how people describe different beer styles.  
 
-(XXX) image of clusters
+<ImageWithCaption
+    id="cluster_plot"
+    srcLight={cluster_plot}
+    srcDark={cluster_plot_dark}
+    caption=""
+    alt="cluster-plot"
+/>
 
 ### Putting a Number on Beer Talk
 
@@ -61,7 +80,13 @@ But can we go beyond visuals and quantify these language differences?  We turned
 
 We faced a slight challenge, though: Calculating cosine similarity between all 2.5 million reviews would require a mind-boggling 10TB of memory!  To overcome this, we took a representative sample of 10,000 reviews and calculated the average cosine similarity within different groups (all reviews, styles, substyles, and individual beers).
 
-(XXX Box plot of distributions)
+<ImageWithCaption
+    id="distribution"
+    srcLight={distribution}
+    srcDark={distribution_dark}
+    caption=""
+    alt="distribution-of-cosine-similarity"
+/>
 
 ### Beer-Proofing Our Findings
 
@@ -84,8 +109,6 @@ All of this analysis showing that beer descriptors are meaningful is all well an
 ### The Most Important Words
 
 Since TF-IDF preserves each input word as a feature, we can interpret its value as the significance of the word to the review. Furthermore, given that we have removed stopwords, and removed beer-specific stopwords (like 'beer' or 'brew'), the words left behind should be descriptors that are meaningful in some way. Below is a figure showing the top 10 average TFIDF embeddings across all beers.
-
-![Top 10 Words Accross All Reviews](../assets/light_top_features.png)
 
 We can also look at a specific style of beer. Rendered below is a dropdown where you can select a beer style and see its top 10 TFIDF embeddings.
 

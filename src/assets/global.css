@@ -95,7 +95,7 @@
   /* texts */
   p,
   li {
-    @apply text-lg font-light leading-loose text-muted-foreground md:text-justify 2xl:text-2xl 2xl:leading-relaxed;
+    @apply text-lg font-light leading-loose text-muted-foreground md:text-justify 2xl:text-2xl 2xl:leading-relaxed mb-4;
   }
 
   a {
@@ -234,7 +234,7 @@
   }
 }
 
-#fadein {
+.fadein {
   opacity: 0;
   transition: opacity 1s ease-in-out;
 }

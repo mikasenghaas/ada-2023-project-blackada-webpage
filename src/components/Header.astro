@@ -59,7 +59,7 @@ import { SITE } from '~/utils/config';
     const scrollPos = getScrollPos();
     const winHeight = getWindowHeight();
 
-    if (scrollPos > 1.1 * winHeight) {
+    if (scrollPos > winHeight) {
       progressContainer.style.opacity = '100%';
     } else {
       progressContainer.style.opacity = '0%';

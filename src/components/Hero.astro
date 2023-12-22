@@ -2,21 +2,24 @@
 
 ---
 
-<section class="flex flex-col mt-20 md:mt-40 mb-60">
-  <p class="text-6xl md:text-8xl font-bold text-left h-[500px] md:h-[400px]">
+<section class="flex flex-col mt-32 mb-32 md:mt-40 md:mb-60">
+  <p class="text-6xl md:text-8xl font-bold text-left h-[500px] md:leading-snug">
     Does your beer also
     <span id="quotes" class="text-accent-foreground"></span>
   </p>
-  <p id="fadein"><span class="text-foreground">No?</span> We didn't think so either.</p>
+  <p id="fadein-1" class="fadein"><span class="text-foreground">No?</span> We couldn't believe it either.</p>
+  <p id="fadein-2" class="fadein">
+    So we had a closer look. <span class="text-accent-foreground font-light">Using data.</span>
+  </p>
 </section>
 
 <script>
   import Typewriter from 'typewriter-effect/dist/core';
 
   const quotes = [
-    'have a nice herby floral hop flavour?',
     'have a caramel, golden syrup nose?',
-    'taste like burnt orange, with some apple hints?',
+    'taste like burnt orange, with apple hints?',
+    'have a nice herby floral hop flavour?',
   ];
   // 1. user_name: cypressbo, user_id: cypressbob.3708
   // 2. user_name: StJamesGate, user_id: stjamesgate.163714
@@ -39,5 +42,6 @@
     }, delay);
   }
 
-  fadeInAfterDelay('fadein', 6000); // Fades in after 2000 milliseconds
+  fadeInAfterDelay('fadein-1', 6000); // Fades in after 2000 milliseconds
+  fadeInAfterDelay('fadein-2', 8000); // Fades in after 2000 milliseconds
 </script>

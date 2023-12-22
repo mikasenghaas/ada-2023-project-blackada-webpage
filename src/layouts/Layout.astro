@@ -4,18 +4,13 @@ import '@fontsource/poppins';
 
 import { I18N } from '~/utils/config';
 
+import Header from '~/components/Header.astro';
 import ApplyColorMode from '~/components/ApplyColorMode.astro';
 import Metadata from '~/components/Metadata.astro';
 import Favicon from '~/components/Favicon.astro';
 import Scripts from '~/components/Scripts.astro';
 
-import type { MetaData as MetaDataType } from '~/types';
-
-export interface Props {
-  metadata?: MetaDataType;
-}
-
-const { metadata = {} } = Astro.props;
+const { metadata } = Astro.props;
 const { language, textDirection } = I18N;
 ---
 
@@ -29,6 +24,7 @@ const { language, textDirection } = I18N;
   </head>
 
   <body class="relative antialiased flex flex-col w-full justify-center">
+    <Header />
     <slot />
     <Scripts />
     <ApplyColorMode />

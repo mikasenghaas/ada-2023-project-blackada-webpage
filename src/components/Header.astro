@@ -2,60 +2,67 @@
 import ToggleTheme from '~/components/ToggleTheme.astro';
 
 import { SITE } from '~/utils/config';
-
-export interface Props {
-  id?: string;
-  isSticky?: boolean;
-  isDark?: boolean;
-  isFullWidth?: boolean;
-  showToggleTheme?: boolean;
-  position?: string;
-}
-
-const {
-  id = 'header',
-  isSticky = false,
-  isDark = false,
-  isFullWidth = false,
-  showToggleTheme = false,
-  position = 'center',
-} = Astro.props;
 ---
 
-<header
-  class:list={[
-    { sticky: isSticky, relative: !isSticky, dark: isDark },
-    'top-0 z-40 flex-none mx-auto w-full transition-[opacity] ease-in-out',
-  ]}
-  {...isSticky ? { 'data-aw-sticky-header': true } : {}}
-  {...id ? { id } : {}}
->
-  <div class="absolute inset-0"></div>
-  <div
-    class:list={[
-      'relative text-default py-6 md:flex md:justify-between',
-      {
-        'max-w-7xl': !isFullWidth,
-      },
-    ]}
-  >
-    <div class:list={[{ 'mr-auto rtl:mr-0 rtl:ml-auto': position === 'right' }, 'flex justify-between']}>
-      <span class="self-center text-lg font-bold text-gray-400 whitespace-nowrap dark:text-gray-600">
-        Team
-        <span class="text-foreground"> {SITE?.name}</span>
-      </span>
-    </div>
-    <div
-      class:list={[
-        { 'ml-auto rtl:ml-0 rtl:mr-auto': position === 'left' },
-        'hidden md:self-center flex md:flex items-center md:mb-0 fixed w-full md:w-auto md:static justify-end left-0 rtl:left-auto rtl:right-0 bottom-0 p-3 md:p-0',
-      ]}
-    >
-      <div class="items-center flex justify-between w-full md:w-auto">
-        <div class="flex">
-          {showToggleTheme && <ToggleTheme iconClass="w-6 h-6 md:w-5 md:h-5 md:inline-block" />}
-        </div>
-      </div>
-    </div>
+<header class="fixed top-0 left-0 right-0 z-40 w-full backdrop-blur-md">
+  <div class="wide-container flex items-center justify-between">
+    <span class="self-center text-lg font-bold text-gray-400 whitespace-nowrap dark:text-gray-600">
+      Team
+      <span class="text-foreground"> {SITE?.name}</span>
+    </span>
+    <ToggleTheme iconClass="w-6 h-6 md:w-5 md:h-5 md:inline-block" />
+  </div>
+  <div id="progress-container" class="w-full h-0.5 bg-accent opacity-0 transition-all duration-300">
+    <div id="progress" class="h-full bg-accent-foreground"></div>
   </div>
 </header>
+
+<script>
+  function getScrollPos() {
+    const clientRect = document.body.getBoundingClientRect();
+    const scrollPos = -clientRect.top;
+
+    return scrollPos;
+  }
+
+  function getWindowHeight() {
+    return window.outerHeight;
+  }
+
+  function getDocHeight() {
+    var body = document.body,
+      html = document.documentElement;
+
+    var height = Math.max(
+      body.scrollHeight,
+      body.offsetHeight,
+      html.clientHeight,
+      html.scrollHeight,
+      html.offsetHeight
+    );
+
+    return height - getWindowHeight();
+  }
+
+  const progressContainer = document.getElementById('progress-container')!;
+  const progress = document.getElementById('progress')!;
+
+  window.addEventListener('scroll', () => {
+    const scrollPos = getScrollPos();
+    const docHeight = getDocHeight();
+    const percentage = `${(100 * scrollPos) / docHeight}%`;
+
+    progress.style.width = percentage;
+  });
+
+  window.addEventListener('scroll', () => {
+    const scrollPos = getScrollPos();
+    const winHeight = getWindowHeight();
+
+    if (scrollPos > 1.1 * winHeight) {
+      progressContainer.style.opacity = '100%';
+    } else {
+      progressContainer.style.opacity = '0%';
+    }
+  });
+</script>

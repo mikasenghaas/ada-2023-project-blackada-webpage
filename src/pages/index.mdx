@@ -1,9 +1,6 @@
 ---
 layout: ../layouts/PageLayout.astro
 ---
-import ImageWithCaption from "../components/ImageWithCaption.astro"
-import top_10_features from "../assets/images/top_k_features_overall.png"
-import top_10_features_dark from "../assets/images/top_k_features_overall_dark.png"
 
 <span class="text-6xl text-foreground">Who</span> doesn't love a good cold brew on a warm summer's day? Who doesn't crave the sound of the can crackling open, and the spike of fizz on the tongue? Who doesn't long for the perfect pour of a pint into an oversized stein with just enough head? But when you stand at the bar, staring at the choice of beers like a deer in headlights, **can you really describe the differences between the options**? 🦌 😵‍💫
 
@@ -29,14 +26,6 @@ To figure out how much people agree on beer descriptions, we created a special p
 ### Flavor Extraction
 
 Not all words in a review are relevant. For example, we have the following review: _'Clear, dark amber with a fluffy tan head that leaves some decent lace on the glass. Sweet caramel malt and marshmallow with a touch of wintergreen in the aroma'_. In this review, we might only care about the truly descriptive words like 'clear, dark amber', 'fluffy tan' or 'sweet caramel malt'. We might also care about non-adjective based descriptors like 'marshmallow' or 'touch of wintergreen'. We tested extracting only adjectives, removing all stopwords (including custom beer-based stopwords) or keeping the reviews as is. When later conducting interpretation analysis on the reviews, we decided that a simple stopword removal was a good compromise, as few irrelevant terms appeared, while retaining non-adjective descriptors. For this step, we used an NLP library called [spaCy](https://spacy.io/) to tag the part of speech (POS) for each token (if a word is a noun, adjective ...) and for lemmatization (the root of a word).
-
-<ImageWithCaption
-    id="top_10_features"
-    srcLight={top_10_features}
-    srcDark={top_10_features_dark}
-    caption="Top 10 Features Overall"
-    alt="top-10-features-overall"
-/>
 
 
 ### Embedding - Turning words into numbers

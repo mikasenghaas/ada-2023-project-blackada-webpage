@@ -23,11 +23,7 @@ export default defineConfig({
       applyBaseStyles: false,
     }),
     mdx(),
-    icon({
-      include: {
-        tabler: ['*'],
-      },
-    }),
+    icon(),
   ],
 
   vite: {

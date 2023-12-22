@@ -33,7 +33,7 @@ This wisdom-of-the-crowd approach leads us to the following three-step distilati
 
 Let's dive into the details of each step.
 
-### 😋 Flavor Extraction
+### 1. 😋 Flavor Extraction
 
 Not all words in a review are related to its taste. For example, in this review
 
@@ -54,7 +54,7 @@ we care about adjectives like 'clear, dark amber', 'fluffy tan' or 'sweet carame
 
 As we can see, most words relate to the taste - but our method is not 100% foolproof. We tried to make our custom stopword list as comprehensive as possible, but we will never catch all non-taste descriptors. For example, in this review we unfortunately retain 'leave', 'glass', and 'touch' - however, the vast majority of words remaining carry meaning. And so we carry on. 🎒
 
-### 🔢️ Numerical Fermentation
+### 2. 🔢️ Numerical Fermentation
 
 Unfortunately, our computers can neither taste nor read - at least not without some help. To analyse the extracted flavours, we therefore had to convert them into a numerical representation. In NLP this is called embedding - we prefer numerical fermentation. 🍺 
 
@@ -68,53 +68,53 @@ Unfortunately, our computers can neither taste nor read - at least not without s
 We considered various techniques: from simply counting the number of times a word appears in a review to the latest advances in NLP using Transformer-based models like [BERT](https://arxiv.org/abs/1810.04805) and [SBERT](https://arxiv.org/abs/1908.10084). Even though these models have proven to provide better sentence representations, the vector features they produce are not interpretable. In the end, **we decided to use [TF-IDF](https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html)** - a model that counts occurrences of words but also takes the frequency of the word in the corpus into account. The intuition behind this is that words that appear in many reviews are less relevant to the analysis, and we want to give them less weight. We can also hope that some of the non-taste-related words from our flavour extraction step are penalised because they appear across many reviews. Crucially, TF-IDF allows us to retrieve the descriptors that are most importnat for each review - vital for our later guide to the beer lexicon. 📖
 
 
-### 🕵️‍♂️ Similarity Synthesis
+### 3. 🕵️‍♂️ Similarity Synthesis
 
-Now that we have a way to represent reviews in a vector space, we can measure the closeness of these vectors to each other. This distance will now represent the consensus of the language used in the reviews. We tried different distance metrics like [cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity), correlation and the KL and JS divergences. We found that the [cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity) gave the best results and was also the fastest to compute. This is perhaps due to the fact that it ignores the magnitude of the vector and only looks at the angle, which is beneficial when working iwth TF-IDF embeddings. This number ranges from 0 to 1, where 0 means that the words used in the reviews are completely different and 1 means that the words used are the same. We can now use this number to compare the consensus of the language used in different groups of reviews by taking the average of this number for each pair of reviews in the group.
+Now that all are reviews have been formulated numerically, we can measure how close they are to each other to see if they agree. We define the average of these distances as the consensus of the language used in the reviews. We tried a range of metrics such as [cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity), correlation and the KL and JS divergences. **We found that the [cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity) gave the best results**. This is likely due teh fact that it ignores the magnitude of the vector and only looks at the angle - which in TFIDF terms means looking at which words are used rather than how common a word is. As a bonus, it was also the most computationally efficient method 💻. We can now use this consensus metric to compare the language used in different groups of reviews. What on earth will we find...?
 
 ## Unveiling the Hidden Patterns
 
 ---
 
-We've got our fancy vectors representing beer reviews, but do they actually tell us anything useful? How can we make sense of a whopping 431,208 dimensions?
+Steps 1 and 2 yielded some fancy vectors representing beer reviews, but do they actually tell us anything useful? How can we make sense of a whopping 431,208 dimensions?
 
 ### Visualising the Beer Landscape
 
-We pulled a neat trick called Truncated Singular Value Decomposition (TSVD) to shrink those dimensions down to a cozy 2D space. This technique is like a cousin of PCA, but it's specially designed for handling sparse matrices (think of them as spreadsheets with lots of blank cells).
+We pulled a neat trick called Truncated Singular Value Decomposition (TSVD) to shrink those dimensions down to a cozy 2D space. This technique is like a cousin of PCA, but it's specially designed for handling sparse matrices.
 
-When we plotted the reviews in this 2D space, something magical happened: They started forming distinct clusters!  We focused on three popular styles—India Pale Ales (IPAs), Stouts and Porters, and Pale Lagers and Pilsners—and found that they consistently arranged themselves in a vertical pattern, with IPAs on top, Stouts and Porters in the middle, and Pale Lagers and Pilsners at the bottom. This visual fingerprint tells us that the vectors aren't just random numbers—they capture real, meaningful differences in how people describe different beer styles.  
+When we plotted the reviews in this 2D space, something ✨magical✨ happened: they started forming distinct clusters! We focused on three popular styles — India Pale Ales (IPAs), Stouts and Porters, and Pale Lagers and Pilsners — and found that they consistently arranged themselves in a vertical pattern, with IPAs on top, Stouts and Porters in the middle, and Pale Lagers and Pilsners at the bottom. This visual fingerprint tells us that the vectors aren't just random numbers—they capture real, meaningful differences in how people describe different beer styles.  
 
 <ImageWithCaption
     id="cluster_plot"
     src="/assets/cluster_plot.png"
-    caption="TODO."
-    alt="cluster-plot"
+    caption="TSVD clusters of embeddings across styles, substyles and beers. We can clearly see groupings forming over these groupings indicating that the embeddings are meaningful."
+    alt="TSVD clusters of embeddings across styles, substyles and beers. We can clearly see groupings forming over these groupings indicating that the embeddings are meaningful."
 />
 
 ### Putting a Number on Beer Talk
 
-But can we go beyond visuals and quantify these language differences?  We turned to our trusty friend, cosine similarity, to measure how closely aligned the language is within different beer groups.
-
-We faced a slight challenge, though: Calculating cosine similarity between all 2.5 million reviews would require a mind-boggling 10TB of memory!  To overcome this, we took a representative sample of 10,000 reviews and calculated the average cosine similarity within different groups (all reviews, styles, substyles, and individual beers).
+On to step 3! We wanted to compare these languages differences numerically. However, we faced a slight challenge. Calculating cosine similarity between all 2.5 million reviews would require a mind-boggling 10TB of memory! To overcome this, we took a representative sample of 10,000 reviews and calculated the average cosine similarity within different groups (all reviews, styles, substyles, and individual beers).
 
 <ImageWithCaption
     id="distribution"
     src="/assets/distribution.png"
-    caption="TODO."
+    caption="Boxplot and histogram/kernel density plot showing the distributions of pairwise cosine similarity across groupings of style/substyle/beer name. Once again, we see clear differences in mean and variance across groups further illustrating the meaning of the embeddings."
     alt="distribution-of-cosine-similarity"
 />
 
 ### Beer-Proofing Our Findings
 
-As any good beer aficionado (or data scientist) knows, you can't just trust your eyes alone. We needed to make sure these differences weren't just a fluke. So, we performed a statistical test called ANOVA (type II), which is like a t-test but for comparing multiple groups at once.
+As any good beer aficionado (or data scientist) knows, you can't just trust your eyes alone 👀. We needed to make sure these differences weren't just a fluke. So, we performed a statistical test called ANOVA (type II), which is like a t-test but for comparing multiple groups at once.
 
-The results? Drumroll, please...  The p-value came back as a tiny 3.040729e-07! That's science-speak for "these differences are highly unlikely to be random."
+The results? Drumroll, please... 🥁  The p-value came back as a miniscule 3.040729e-07! That's science-speak for "we can trust these results."
 
-To double-check, we shuffled the reviews like a deck of cards and re-ran the test. This time, the p-value was a whopping 0.9—basically, no significant differences. This confirmed that our initial findings weren't just a lucky draw. 🃏
+To double-check, we shuffled the reviews like a deck of cards and re-ran the test. This time, the p-value came back as 0.9 — basically, no significant differences. This confirmed that our initial findings weren't just a lucky draw. 🃏
 
-We then used Tukey's HSD test to pinpoint exactly which groups were significantly different from each other. It turned out that the language used for different styles and substyles was indeed distinct as well as between the styles and individual beers, but the other pairs didn't show as much variation.
+We then used Tukey's HSD test to pinpoint exactly which groups were significantly different from each other. It turned out that the language used for different styles and substyles was indeed distinct, as well as between the styles and individual beers. The other pairs of groupings we tested didn't show as much variation.
 
-With all this evidence, we can confidently say (while still leaving room for a bit of scientific caution) that beer lovers do indeed use different language to describe different styles and beers. This opens up exciting possibilities for understanding how people talk about beer, and what specific words and phrases they use to describe their favorite brews.
+With all this evidence, we can confidently say (while still leaving room for a bit of scientific caution) that beer lovers do indeed use different language to describe different styles and beers. Hooray! 
+
+But how is any of this useful?
 
 ## A Layman's Guide to the Beer Lexicon
 
@@ -133,7 +133,7 @@ Since TF-IDF preserves each input word as a feature, we can interpret its value 
     alt="Top 10 words for all beers"
 />
 
-The results here are unsurprising. We have fairly basic descriptors such as 'nice' and 'good'. What if we instead looked at a specific style of beer? Below are charts for 2 styles - 'Amber and Dark Lagers', and 'Wheat beers', respectively.
+The results here are unsurprising. We have fairly basic descriptors such as 'nice' and 'good'. What if we instead looked at a specific style of beer? Below are charts for 2 styles - Amber and Dark Lagers, and Wheat beers, respectively.
 
 <ImageWithCaption
     src="/assets/top_k_features_by_style/Amber_and_Dark_Lagers.png"
@@ -142,7 +142,7 @@ The results here are unsurprising. We have fairly basic descriptors such as 'nic
     alt="Top 10 words for Amber and Dark Lagers"
 />
 
-Here we see slightly more interesting examples. On the 'Wheat beers' chart we have many fruity words appearing, where with Amber and Dark Lagers we see that they are sweet and caramel-y, with the notable inclusion of _'oktoberfest'_ coming in at No. 10! 
+Here we see slightly more interesting examples. On the Wheat beers chart we have many fruity words appearing, where with Amber and Dark Lagers we see that they are sweet and caramel-y, with the notable inclusion of _'oktoberfest'_ coming in at No. 10! 
 
 <ImageWithCaption
     src="/assets/top_k_features_by_style/Wheat_Beers.png"
@@ -191,7 +191,7 @@ The final example we present to you is for hybrid & experimental beers. Firstly,
     alt="Top 10 differences in word usage for Hyrbid and Experimental Beers"
 />
 
-## What have we learned?
+## So, what have we learned?
 
 ---
 
@@ -203,10 +203,4 @@ Beyond the fun, this shared language offers real potential:
 * Recommend new beers based on your existing vocabulary.
 * Build a more inclusive beer community where everyone can join the conversation.
 
-So, next time you raise a glass, remember that you're part of a global beer language choir. Cheers to understanding, discovery, and endless brews! Cheers 🍻!
-
-**P.S** *Use your newfound vocabulary wisely. Just don't blame us if your friends start rolling eyes!*
-
-**P.P.S.** *If you want to learn more about our analysis, check out our [GitHub](https://github.com/epfl-ada/ada-2023-project-blackada).*
-
-**P.P.P.S** *Read about some of our [limitations and ethical considerations](/more).*
+So, next time you raise a glass, remember that you're part of a global beer language choir. Cheers to understanding, discovery, and endless brews 🍻!

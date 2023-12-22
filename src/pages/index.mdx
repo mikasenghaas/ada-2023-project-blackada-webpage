@@ -5,12 +5,6 @@ import ImageWithCaption from "../components/ImageWithCaption.astro"
 
 <span class="text-6xl text-foreground">Who</span> doesn't love a good cold brew on a warm summer's day? Who doesn't crave the sound of the can crackling open, and the spike of fizz on the tongue? Who doesn't long for the perfect pour of a pint into an oversized stein with just enough head? But when you stand at the bar, staring at the choice of beers like a deer in headlights, **can you really describe the differences between the options**? 🦌 😵‍💫
 
-<ImageWithCaption
-    src="/assets/top_k_features_overall.png"
-    id="top-k-features"
-    caption="Top 10 features by style"
-    alt="Top 10 features by style"
-/>
 
 Navigating the world of beers can be a daunting task for non-experts. Beer aficionados often describe brews as having nuanced flavors such as *grassy notes* and *biscuity/crackery malt*, with hints of *hay*. **But do these descriptions reflect the actual tasting experience?** 🤔 In a hunt for answers we turned to the ultimate source of trust - data. Packed with 2,4M beer reviews, fancy natural language processing techniques, statistical tests and many more goodies in our [ADA](https://ada.epfl.ch) bag 🎒, we set out to settle the debate around the beer jargon once and for all. After reading this you will know if it is worth diving into the depths of the palate and become a true beer expert. And psst... you want to sound like a beer expert even without knowing the jargon? We got your back! 🫂 In the end, we reveal the ultimate words to describe each beer - guaranteed  to impress even [Insert Top BeerAdvocate Reviewer](). **Let's get the journey started!** 🍻
 
@@ -89,25 +83,72 @@ All of this analysis showing that beer descriptors are meaningful is all well an
 
 ### The Most Important Words
 
-Since TF-IDF preserves each input word as a feature, we can interpret its value as the significance of the word to the review. Furthermore, given that we have removed stopwords, and removed beer-specific stopwords (like 'beer' or 'brew'), the words left behind should be descriptors that are meaningful in some way. Below is a figure showing the top 10 average TFIDF embeddings across all beers.
+Since TF-IDF preserves each input word as a feature, we can interpret its value as the significance of the word to the review. Furthermore, given that we have removed stopwords, and removed beer-specific stopwords (like 'beer' or 'brew'), the words left behind should be descriptors that are meaningful in some way. Below is a figure showing the top 10 word for describing all beers - that is, the average TFIDF embeddings across all beers.
 
-We can also look at a specific style of beer. Rendered below is a dropdown where you can select a beer style and see its top 10 TFIDF embeddings.
+<ImageWithCaption
+    src="/assets/top_k_features_overall.png"
+    id="top-k-difference-all"
+    caption="Top 10 words for all beers"
+    alt="Top 10 words for all beers"
+/>
 
-(XXX) Insert dropdown of styles
+The results here are unsurprising. We have fairly basic descriptors such as 'nice' and 'good'. What if we instead looked at a specific style of beer? Below are charts for 2 styles - Amber and Dark Lagers, and Wheat beers, respectively.
 
-The results here are unsurprising. We have fairly basic descriptors such as 'nice' and 'good', but also a few more interesting examples such as (XXX).
+<ImageWithCaption
+    src="/assets/top_k_features_by_style/Amber_and_Dark_Lagers.png"
+    id="top-k-amber"
+    caption="Top 10 words for Amber and Dark Lagers"
+    alt="Top 10 words for Amber and Dark Lagers"
+/>
+
+Here we see slightly more interesting examples. On the Wheat beers chart we have many fruity words appearing, where with Amber and Dark Lagers we see that they are sweet and caramel-y, with the notable inclusion of _'oktoberfest'_ coming in at No. 10! 
+
+<ImageWithCaption
+    src="/assets/top_k_features_by_style/Wheat_Beers.png"
+    id="top-k-wheat"
+    caption="Top 10 words for Wheat Beers"
+    alt="Top 10 words for Wheat Beers"
+/>
 
 ### Which words when?
 
-It might be more interesting to see which words are used _differently_ for a given beer style. If we take the difference between a group's mean embbedding and the mean of the remainder of the beers, we can find such descriptors. This way, we can identify the words which are most important to that kind of beer - or put differently - the words which are most different in usage for a particular kind of beer. Below is a dropdown where you can select a style of beer and see the top 10 most different words (either positive or negative) for that style.
+It might be more interesting to see which words are used _differently_ for a given beer style. If we take the difference between a group's mean embbedding and the mean of the remainder of the beers, we can find such descriptors. This way, we can identify the words which are most important to that kind of beer - or put differently - the words which are most different in usage for a particular kind of beer. 
 
-(XXX) Insert dropdown of styles
+First up we have Pale Ales. Very borinigly, the most important word is pale, followed by hop. But now with the inclusion of the difference we can see that we should **not** describe pale ales as dark or chocolate-y. 
 
-Here, the results are more interesting. We find examples like (XXX).
+<ImageWithCaption
+    src="/assets/top_k_features_by_style_diff/Pale_Ales.png"
+    id="top-k-pale"
+    caption="Top 10 differences in word usage for Pale Ales"
+    alt="Top 10 differences in word usage for Pale Ales"
+/>
 
-Finally, in order to trully get these words embedded(!) in your brain, here is a word cloud generator which uses the same data so that you can put a poster up on your wall of your favourite beer's descriptors. A word's size indicates its importance and the colour indicates whether it should or should not be used (blue for positive, red for negative). Happy drinking!
+Next up, Stouts and Porters. Clearly, this is where all the dark and chocolate-y beers can be found. Or we can even compare them to 'roasted coffee', with hints of 'vanilla' and 'bourbon', and a sprinkling of 'citrus' - we're starting to sound like beer critics already!
 
-(XXX) Insert Wordcloud generator.
+<ImageWithCaption
+    src="/assets/top_k_features_by_style_diff/Stouts_and_Porters.png"
+    id="top-k-stouts"
+    caption="Top 10 differences in word usage for Stouts and Porters"
+    alt="Top 10 differences in word usage for Stouts and Porters"
+/>
+
+In our dataset, we also have a number of specialty beers. Here we see some less convential flavours popping up in the form of raspberry, smoke, cherry and blueberry. What are these brewers up to!
+
+<ImageWithCaption
+    src="/assets/top_k_features_by_style_diff/Specialty_Beers.png"
+    id="top-k-specialty"
+    caption="Top 10 differences in word usage for Specialty Beers"
+    alt="Top 10 differences in word usage for Specialty Beers"
+/>
+
+The final example we present to you is for hybrid & experimental beers. Firstly, the top 10 differences are all positive - truly some unique beers here! We've got some seemingly contrasting words coming out - something which one might expect of hyrbid beers. Both 'sour' and 'tart' are present, but also 'cinnamon' and 'warmer'. Perhaps the best way to sum it up would be 'funk'...
+
+<ImageWithCaption
+    src="/assets/top_k_features_by_style_diff/Hybrid_and_Experimental_Beers.png"
+    id="top-k-hybrid-experimental"
+    caption="Top 10 differences in word usage for Hyrbid and Experimental Beers"
+    alt="Top 10 differences in word usage for Hyrbid and Experimental Beers"
+/>
 
 ## Important Things Before We Conclude
 
@@ -115,7 +156,7 @@ Finally, in order to trully get these words embedded(!) in your brain, here is a
 
 ### Limitations
 
-In this report, we had access to a limited number of variables related to each review. Therefore, we could not account for various possible confounders such as the time of review, the nationality of the revieiwer, the difference between every drink of a single kind/style of beer and the differences in perceptions between people's experience of taste. We did attempt to look at the variables we did have access to such as the location of the review and the inherent quality of the beer (as estimated by overall rating).
+In this report, we had access to a limited number of variables related to each review. Therefore, we could not account for various possible confounders such as the time of review, the nationality of the revieiwer, the difference between every drink of a single kind/style of beer and the differences in perceptions between people's experience of taste. We did attempt to look at the variables we did have access to such as the location of the review and the inherent quality of the beer (as estimated by overall rating). We also did not interpret the context of words. While this is not an issue for a word like 'strawberry' which is espcially pertinent for negations in our review dataset.
 
 ### Ethical Considerations
 
@@ -133,7 +174,7 @@ Beyond the fun, this shared language offers real potential:
 * Recommend new beers based on your existing vocabulary.
 * Build a more inclusive beer community where everyone can join the conversation.
 
-So, next time you raise a glass, remember that you're part of a global beer language choir. Cheers to understanding, discovery, and endless brews!
+So, next time you raise a glass, remember that you're part of a global beer language choir. Cheers to understanding, discovery, and endless brews! Cheers 🍻!
 
 (P.S. We promise to avoid any more beer puns. Maybe.)
 

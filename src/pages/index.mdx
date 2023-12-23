@@ -106,7 +106,7 @@ On to step 3! We wanted to compare these languages differences numerically. Howe
 
 As any good beer aficionado (or data scientist) knows, you can't just trust your eyes alone 👀. We needed to make sure these differences weren't just a fluke. So, we performed a statistical test called ANOVA (type II), which is like a t-test but for comparing multiple groups at once.
 
-The results? Drumroll, please... 🥁  The p-value came back as a miniscule 3.040729e-07! That's science-speak for "we can trust these results."
+The results? Drumroll, please... 🥁  The p-value came back as a miniscule 3.040729e-07! That's science-speak for **we can trust these results.**
 
 To double-check, we shuffled the reviews like a deck of cards and re-ran the test. This time, the p-value came back as 0.9 — basically, no significant differences. This confirmed that our initial findings weren't just a lucky draw. 🃏
 
@@ -120,7 +120,7 @@ But how is any of this useful?
 
 ---
 
-All of this analysis showing that beer descriptors are meaningful is all well and good, but how should you go about describing a beer if you want to truly sound like an expert? Which words should you use for which kinds of beers? How will you look in front of your beer-fanatic friends if you take a misstep in the minefield of beer descriptors? In this section, we take the TF-IDF embbeddings and conduct further analysis in order to find the largest differences between descriptors used for different kinds of beers.
+All of this analysis showing that beer descriptors are meaningful is all well and good, but how should you go about describing a beer if you want to truly sound like an expert? Which words should you use for which kinds of beers? How will you look in front of your beer-fanatic friends if you take a misstep in the minefield ☢️ of beer descriptors? In this section, we take the TF-IDF embbeddings and conduct further analysis in order to find the largest differences between descriptors used for different kinds of beers.
 
 ### The Most Important Words
 
@@ -142,7 +142,7 @@ The results here are unsurprising. We have fairly basic descriptors such as 'nic
     alt="Top 10 words for Amber and Dark Lagers"
 />
 
-Here we see slightly more interesting examples. On the Wheat beers chart we have many fruity words appearing, where with Amber and Dark Lagers we see that they are sweet and caramel-y, with the notable inclusion of _'oktoberfest'_ coming in at No. 10! 
+Here we see slightly more interesting examples. On the Wheat beers chart we have many fruity words appearing, where with Amber and Dark Lagers we see that they are sweet and caramel-y, with the notable inclusion of _'oktoberfest'_ coming in at No. 10! 🇩🇪
 
 <ImageWithCaption
     src="/assets/top_k_features_by_style/Wheat_Beers.png"
@@ -155,7 +155,7 @@ Here we see slightly more interesting examples. On the Wheat beers chart we have
 
 It might be more interesting to see which words are used _differently_ for a given beer style. If we take the difference between a group's mean embbedding and the mean of the remainder of the beers, we can find such descriptors. This way, we can identify the words which are most important to that kind of beer - or put differently - the words which are most different in usage for a particular kind of beer. 
 
-First up we have Pale Ales. Very borinigly, the most important word is pale, followed by hop. But now with the inclusion of the difference we can see that we should **not** describe pale ales as dark or chocolate-y. 
+First up we have Pale Ales. Very borinigly, the most important word is pale, followed by hop. But now with the inclusion of the difference, we can see that we should **not** describe pale ales as dark or chocolate-y. 
 
 <ImageWithCaption
     src="/assets/top_k_features_by_style_diff/Pale_Ales.png"
@@ -173,7 +173,7 @@ Next up, Stouts and Porters. Clearly, this is where all the dark and chocolate-y
     alt="Top 10 differences in word usage for Stouts and Porters"
 />
 
-In our dataset, we also have a number of specialty beers. Here we see some less convential flavours popping up in the form of raspberry, smoke, cherry and blueberry. What are these brewers up to!
+In our dataset, we also have a number of specialty beers. Here we see some less convential flavours popping up in the form of raspberry, smoke, cherry and blueberry. What are these brewers up to?!
 
 <ImageWithCaption
     src="/assets/top_k_features_by_style_diff/Specialty_Beers.png"
@@ -205,4 +205,4 @@ Beyond the fun, this shared language offers real potential:
 
 So, next time you raise a glass, remember that you're part of a global beer language choir. Cheers to understanding, discovery, and endless brews 🍻!
 
-**P.S** *Read about some of our [limitations and ethical considerations](/more).*
+*P.S Read about some of our [limitations and ethical considerations](/more).*

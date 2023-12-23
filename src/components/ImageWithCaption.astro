@@ -4,8 +4,8 @@ import { Image } from 'astro:assets';
 const { id, src, alt, caption } = Astro.props;
 ---
 
-<div class="my-12">
-  <Image id={id} src={src} alt={alt} width={800} height={400} />
+<div class="my-12 w-full">
+  <Image id={id} src={src} class="w-full" alt={alt} width={800} height={400} />
   <p class="text-sm italic">{caption}</p>
 </div>
 
